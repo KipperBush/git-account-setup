@@ -1,0 +1,18 @@
+{
+  "name": "git-account-setup",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Web UI for setting up per-directory GitHub identity and credential switching",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "jest --testPathPattern=tests/"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^6.3.4"
+  }
+}
