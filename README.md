@@ -17,20 +17,39 @@ For each GitHub account you configure, the wizard:
 3. Writes `~/.gitconfig-<slug>` — an identity file with your name, email, and credential helper
 4. Adds an `includeIf "gitdir:<path>/"` entry to `~/.gitconfig` that activates the identity for all repos under that path
 
+## Installation
+
+```bash
+git clone https://github.com/KipperBush/git-account-setup.git
+cd git-account-setup
+```
+
 ## Usage
+
+### Web UI (recommended)
 
 ```bash
 ./setup.sh
 ```
 
-The script checks that `node`, `gh`, and `git` are installed, starts a local Express server, and opens the wizard in your browser. Walk through the 5 steps, click Apply, and you're done.
+Checks that `node`, `gh`, and `git` are installed, starts a local Express server, and opens a 5-step wizard in your browser.
+
+### CLI (minimal, no Node.js required)
+
+```bash
+./setup-cli.sh
+```
+
+Prompts for path, name, email, username, and token directly in the terminal. Only requires `gh` and `git`.
 
 ## Requirements
 
-- macOS
-- [Node.js](https://nodejs.org) (`brew install node`)
-- [GitHub CLI](https://cli.github.com) (`brew install gh`)
-- Git
+| | Web UI | CLI |
+|---|---|---|
+| macOS | ✓ | ✓ |
+| [Git](https://git-scm.com) | ✓ | ✓ |
+| [GitHub CLI](https://cli.github.com) (`brew install gh`) | ✓ | ✓ |
+| [Node.js](https://nodejs.org) (`brew install node`) | ✓ | — |
 
 ## Verify it worked
 
