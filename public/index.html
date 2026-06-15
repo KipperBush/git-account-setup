@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Git Account Setup</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <h1>Git Account Setup</h1>
+      <div class="progress">
+        <div class="progress-step active" data-step="1">1</div>
+        <div class="progress-step" data-step="2">2</div>
+        <div class="progress-step" data-step="3">3</div>
+        <div class="progress-step" data-step="4">4</div>
+        <div class="progress-step" data-step="5">5</div>
+      </div>
+    </header>
+
+    <main class="main">
+      <div id="step-1" class="step active">
+        <h2>Welcome</h2>
+        <p>This tool sets up per-directory GitHub identity and credential switching — so <code>git push</code> automatically uses the right account based on where your repo lives.</p>
+        <div class="token-instructions">
+          <h3>First, generate a GitHub Personal Access Token:</h3>
+          <ol>
+            <li>Open <a href="https://github.com/settings/tokens" target="_blank">github.com/settings/tokens</a></li>
+            <li>Click <strong>Generate new token (classic)</strong></li>
+            <li>Set a note (e.g. <em>local-dev-mac</em>) and choose an expiration</li>
+            <li>Select scopes: <code>repo</code>, <code>read:org</code>, <code>workflow</code></li>
+            <li>Click Generate and copy the token — it won't be shown again</li>
+            <li>If your org uses SAML SSO: click <strong>Configure SSO</strong> next to the token and authorize your org</li>
+          </ol>
+        </div>
+        <div class="step-actions">
+          <button class="btn-primary" id="btn-step1-next">Continue →</button>
+        </div>
+      </div>
+
+      <div id="step-2" class="step">
+        <h2>Workspace Path</h2>
+        <p>Which directory root should use this GitHub account? All git repos inside it will use this identity.</p>
+        <div class="form-group">
+          <label for="input-path">Repo root path</label>
+          <input id="input-path" type="text" placeholder="~/Repo/realfinity" autocomplete="off">
+          <div class="help-text">Example: <code>~/Repo/realfinity</code> — all repos under this directory will use the configured account.</div>
+        </div>
+        <div id="prefill-notice" class="notice notice-info" style="display:none">
+          ✓ Existing configuration found — fields pre-filled. You can edit them.
+        </div>
+        <div class="step-actions">
+          <button class="btn-secondary" id="btn-step2-back">← Back</button>
+          <button class="btn-primary" id="btn-step2-next">Continue →</button>
+        </div>
+      </div>
+
+      <div id="step-3" class="step">
+        <h2>Git Identity</h2>
+        <p>This name and email will appear on your commits in repos under this path.</p>
+        <div class="form-group">
+          <label for="input-name">Full name</label>
+          <input id="input-name" type="text" placeholder="Kipper Bush" autocomplete="name">
+        </div>
+        <div class="form-group">
+          <label for="input-email">Email address</label>
+          <input id="input-email" type="email" placeholder="you@example.com" autocomplete="email">
+        </div>
+        <div class="form-group">
+          <label for="input-username">GitHub username</label>
+          <input id="input-username" type="text" placeholder="octocat" autocomplete="off">
+        </div>
+        <div class="step-actions">
+          <button class="btn-secondary" id="btn-step3-back">← Back</button>
+          <button class="btn-primary" id="btn-step3-next">Continue →</button>
+        </div>
+      </div>
+
+      <div id="step-4" class="step">
+        <h2>GitHub Token</h2>
+        <p>Paste the token you generated in step 1. It will be stored in macOS Keychain — never written to disk.</p>
+        <div class="form-group">
+          <label for="input-token">Personal access token</label>
+          <input id="input-token" type="password" placeholder="ghp_..." autocomplete="off">
+        </div>
+        <div id="verify-result" style="display:none"></div>
+        <div class="step-actions">
+          <button class="btn-secondary" id="btn-step4-back">← Back</button>
+          <button class="btn-secondary" id="btn-verify">Verify Token</button>
+          <button class="btn-primary" id="btn-step4-next" disabled>Continue →</button>
+        </div>
+      </div>
+
+      <div id="step-5" class="step">
+        <h2>Confirm &amp; Apply</h2>
+        <div id="summary"></div>
+        <div id="apply-output" class="output" style="display:none"></div>
+        <div id="success-message" style="display:none">
+          <div class="notice notice-success">
+            <strong>Setup complete!</strong> Verify in your terminal:<br>
+            <code id="verify-cmd"></code>
+          </div>
+          <div class="step-actions">
+            <button class="btn-secondary" id="btn-add-another">+ Add Another Account</button>
+            <button class="btn-primary" id="btn-done">Done</button>
+          </div>
+        </div>
+        <div id="apply-actions">
+          <div class="step-actions">
+            <button class="btn-secondary" id="btn-step5-back">← Back</button>
+            <button class="btn-primary" id="btn-apply">Apply Setup</button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script src="wizard.js"></script>
+</body>
+</html>
