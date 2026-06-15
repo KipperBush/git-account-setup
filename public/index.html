@@ -44,7 +44,10 @@
         <p>Which directory root should use this GitHub account? All git repos inside it will use this identity.</p>
         <div class="form-group">
           <label for="input-path">Repo root path</label>
-          <input id="input-path" type="text" placeholder="~/Repo/realfinity" autocomplete="off">
+          <div class="input-group">
+            <input id="input-path" type="text" placeholder="~/Repo/realfinity" autocomplete="off">
+            <button type="button" class="btn-secondary btn-sm" id="btn-browse">Browse…</button>
+          </div>
           <div class="help-text">Example: <code>~/Repo/realfinity</code> — all repos under this directory will use the configured account.</div>
         </div>
         <div id="prefill-notice" class="notice notice-info" style="display:none">
@@ -115,6 +118,21 @@
       </div>
     </main>
   </div>
+  <div id="browse-modal" class="modal" style="display:none">
+    <div class="modal-backdrop" id="browse-backdrop"></div>
+    <div class="modal-box">
+      <div class="modal-header">
+        <code id="browse-current-path" class="browse-path"></code>
+        <button class="btn-icon" id="btn-browse-close" aria-label="Close">✕</button>
+      </div>
+      <div id="browse-list" class="browse-list"></div>
+      <div class="modal-footer">
+        <button class="btn-secondary" id="btn-browse-cancel">Cancel</button>
+        <button class="btn-primary" id="btn-browse-select">Select This Folder</button>
+      </div>
+    </div>
+  </div>
+
   <script src="wizard.js"></script>
 </body>
 </html>

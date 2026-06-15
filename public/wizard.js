@@ -15,6 +15,11 @@ const wizard = {
     document.getElementById('btn-apply').addEventListener('click', () => this.apply());
     document.getElementById('btn-add-another').addEventListener('click', () => this.addAnother());
     document.getElementById('btn-done').addEventListener('click', () => this.done());
+    document.getElementById('btn-browse').addEventListener('click', () => this.openBrowser());
+    document.getElementById('btn-browse-close').addEventListener('click', () => this.closeBrowser());
+    document.getElementById('btn-browse-cancel').addEventListener('click', () => this.closeBrowser());
+    document.getElementById('browse-backdrop').addEventListener('click', () => this.closeBrowser());
+    document.getElementById('btn-browse-select').addEventListener('click', () => this.selectBrowsedPath());
   },
 
   show(step) {
@@ -152,6 +157,54 @@ const wizard = {
     document.getElementById('apply-output').textContent = '';
     this.state = {};
     this.show(2);
+  },
+
+  async openBrowser() {
+    const current = document.getElementById('input-path').value.trim() || '~';
+    await this.loadBrowseDir(current);
+    document.getElementById('browse-modal').style.display = 'flex';
+  },
+
+  closeBrowser() {
+    document.getElementById('browse-modal').style.display = 'none';
+  },
+
+  selectBrowsedPath() {
+    document.getElementById('input-path').value = this._browsePath;
+    this.closeBrowser();
+  },
+
+  async loadBrowseDir(dirPath) {
+    const res = await fetch(`/api/browse?path=${encodeURIComponent(dirPath)}`);
+    const data = await res.json();
+    if (data.error) return;
+
+    this._browsePath = data.path;
+    document.getElementById('browse-current-path').textContent = data.path;
+
+    const list = document.getElementById('browse-list');
+    list.innerHTML = '';
+
+    if (data.parent) {
+      const up = document.createElement('div');
+      up.className = 'browse-item browse-up';
+      up.innerHTML = '<span class="browse-item-icon">↑</span><span>.. (up one level)</span>';
+      up.addEventListener('click', () => this.loadBrowseDir(data.parent));
+      list.appendChild(up);
+    }
+
+    if (data.dirs.length === 0 && !data.parent) {
+      list.innerHTML = '<div class="browse-empty">No subdirectories</div>';
+      return;
+    }
+
+    for (const dir of data.dirs) {
+      const item = document.createElement('div');
+      item.className = 'browse-item';
+      item.innerHTML = `<span class="browse-item-icon">📁</span><span>${dir}</span>`;
+      item.addEventListener('click', () => this.loadBrowseDir(data.path + '/' + dir));
+      list.appendChild(item);
+    }
   },
 
   async done() {

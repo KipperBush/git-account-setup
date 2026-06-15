@@ -9,6 +9,26 @@ const { readConfigForPath } = require('../lib/gitconfig');
 const { verifyToken } = require('../lib/github');
 const { applySetup } = require('../lib/setup');
 
+describe('GET /api/browse', () => {
+  it('returns dirs for a real path', async () => {
+    const res = await request(app).get('/api/browse?path=/tmp');
+    expect(res.status).toBe(200);
+    expect(res.body).toHaveProperty('path', '/tmp');
+    expect(Array.isArray(res.body.dirs)).toBe(true);
+  });
+
+  it('returns 400 for a non-existent path', async () => {
+    const res = await request(app).get('/api/browse?path=/nonexistent-xyz-path');
+    expect(res.status).toBe(400);
+  });
+
+  it('defaults to home dir when no path given', async () => {
+    const res = await request(app).get('/api/browse');
+    expect(res.status).toBe(200);
+    expect(res.body.path).toBeTruthy();
+  });
+});
+
 describe('GET /api/config', () => {
   it('returns 400 when path is missing', async () => {
     const res = await request(app).get('/api/config');

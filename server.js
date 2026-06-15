@@ -1,5 +1,6 @@
 const express = require('express');
 const net = require('net');
+const os = require('os');
 const path = require('path');
 const fs = require('fs');
 const { readConfigForPath } = require('./lib/gitconfig');
@@ -15,6 +16,22 @@ app.get('/api/config', (req, res) => {
   if (!repoPath) return res.status(400).json({ error: 'path required' });
   const config = readConfigForPath(repoPath);
   res.json(config ?? { configured: false });
+});
+
+app.get('/api/browse', (req, res) => {
+  const reqPath = req.query.path || os.homedir();
+  const expanded = reqPath.replace(/^~/, os.homedir());
+  try {
+    const entries = fs.readdirSync(expanded, { withFileTypes: true });
+    const dirs = entries
+      .filter(e => e.isDirectory() && !e.name.startsWith('.'))
+      .map(e => e.name)
+      .sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
+    const parent = path.dirname(expanded);
+    res.json({ path: expanded, parent: parent !== expanded ? parent : null, dirs });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
 });
 
 app.post('/api/verify-token', async (req, res) => {
