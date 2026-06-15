@@ -18,7 +18,7 @@ afterEach(() => {
 
 describe('toSlug', () => {
   it('lowercases and replaces non-alphanumeric with hyphens', () => {
-    expect(toSlug('RealfinityKipper')).toBe('realfinity-kipper');
+    expect(toSlug('MyOrgUser')).toBe('my-org-user');
   });
   it('preserves hyphens', () => {
     expect(toSlug('nevo-kb')).toBe('nevo-kb');
