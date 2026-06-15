@@ -15,6 +15,8 @@ const wizard = {
     document.getElementById('btn-apply').addEventListener('click', () => this.apply());
     document.getElementById('btn-add-another').addEventListener('click', () => this.addAnother());
     document.getElementById('btn-done').addEventListener('click', () => this.done());
+    document.getElementById('toggle-fine').addEventListener('click', () => this.setTokenType('fine'));
+    document.getElementById('toggle-classic').addEventListener('click', () => this.setTokenType('classic'));
     document.getElementById('btn-browse').addEventListener('click', () => this.openBrowser());
     document.getElementById('btn-browse-close').addEventListener('click', () => this.closeBrowser());
     document.getElementById('btn-browse-cancel').addEventListener('click', () => this.closeBrowser());
@@ -157,6 +159,13 @@ const wizard = {
     document.getElementById('apply-output').textContent = '';
     this.state = {};
     this.show(2);
+  },
+
+  setTokenType(type) {
+    document.getElementById('instructions-fine').style.display = type === 'fine' ? '' : 'none';
+    document.getElementById('instructions-classic').style.display = type === 'classic' ? '' : 'none';
+    document.getElementById('toggle-fine').classList.toggle('active', type === 'fine');
+    document.getElementById('toggle-classic').classList.toggle('active', type === 'classic');
   },
 
   async openBrowser() {
