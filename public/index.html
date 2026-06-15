@@ -36,7 +36,13 @@
             <li>Open <a href="https://github.com/settings/tokens?type=beta" target="_blank">github.com/settings/tokens</a> and click <strong>Generate new token (fine-grained)</strong></li>
             <li>Set a name (e.g. <em>local-dev-mac</em>), expiration, and choose <strong>Resource owner</strong> (your user or org)</li>
             <li>Under <strong>Repository access</strong>, choose <em>All repositories</em> or select specific ones</li>
-            <li>Under <strong>Permissions</strong>, set: <em>Contents</em> → Read &amp; Write, <em>Metadata</em> → Read-only, <em>Workflows</em> → Read &amp; Write</li>
+            <li>Under <strong>Permissions</strong>, grant:
+              <ul>
+                <li><em>Contents</em> — Read &amp; Write</li>
+                <li><em>Metadata</em> — Read-only (auto-selected)</li>
+                <li><em>Workflows</em> — Read &amp; Write</li>
+              </ul>
+            </li>
             <li>Click Generate and copy the token — it won't be shown again</li>
             <li>If your org uses SAML SSO: fine-grained tokens are authorized per resource owner — select the org as resource owner in step 2</li>
           </ol>
