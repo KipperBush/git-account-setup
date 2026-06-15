@@ -160,9 +160,14 @@ const wizard = {
   },
 
   async openBrowser() {
-    const current = document.getElementById('input-path').value.trim() || '~';
-    await this.loadBrowseDir(current);
     document.getElementById('browse-modal').style.display = 'flex';
+    document.getElementById('browse-list').innerHTML = '<div class="browse-empty">Loading…</div>';
+    const current = document.getElementById('input-path').value.trim() || '~';
+    try {
+      await this.loadBrowseDir(current);
+    } catch (err) {
+      document.getElementById('browse-list').innerHTML = `<div class="browse-empty">Error: ${err.message}</div>`;
+    }
   },
 
   closeBrowser() {
