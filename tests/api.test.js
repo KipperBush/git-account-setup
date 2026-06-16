@@ -43,10 +43,10 @@ describe('GET /api/config', () => {
   });
 
   it('returns existing config when path is configured', async () => {
-    readConfigForPath.mockReturnValue({ configured: true, name: 'Kipper', email: 'k@example.com', username: 'kb' });
+    readConfigForPath.mockReturnValue({ configured: true, name: 'Jane', email: 'jane@example.com', username: 'janedoe' });
     const res = await request(app).get('/api/config?path=~/Repo/test');
     expect(res.body.configured).toBe(true);
-    expect(res.body.name).toBe('Kipper');
+    expect(res.body.name).toBe('Jane');
   });
 });
 
